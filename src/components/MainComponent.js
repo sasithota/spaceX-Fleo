@@ -12,10 +12,11 @@ const styles = {
         height : '90vh',
     },
     dataview : {
-        height : '85vh',
+        height : '80vh',
         display : 'flex',
         flexWrap : 'wrap',
         padding : '10px',
+        margin : '15px',
         justifyContent : 'center',
         alignContent : 'space-between',
         alignItems : 'center'
