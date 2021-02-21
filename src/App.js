@@ -25,7 +25,6 @@ function App() {
         {/* navbar */}
         <Navbar bg="white" variant="white">
           <Navbar.Brand style={{fontSize:'35px'}} href="www.spacex.com">SpaceX</Navbar.Brand>
-          <i>Browse all launches by SpaceX program</i>
         </Navbar>
       </div>
       <div style={styles.body}>

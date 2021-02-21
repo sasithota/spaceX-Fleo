@@ -9,25 +9,27 @@ import LoadingSpinner from './LoadingSpinner';
 
 const styles = {
     container : {
-        height : '100%'
+        height : '100vh',
+    
     },
     filter : {
-        height : '10%',
+        height : '15vh',
         display : 'flex',
-        justifyContent : 'space-around'
+        justifyContent : 'space-around',
+        flexWrap : 'wrap'
     },
     dataview : {
-        height : '90%',
+        height : '85vh',
         display : 'flex',
         flexWrap : 'wrap',
         padding : '10px',
-        justifyContent : 'flex-start',
+        justifyContent : 'center',
         alignContent : 'space-between',
         alignItems : 'center'
     },
     spinner : {
-        height : '100%',
-        width : '100%',
+        height : '10vh',
+        width : '10vh',
         display : 'flex',
         alignItems : 'center',
         justifyContent : 'center'
