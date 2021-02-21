@@ -13,7 +13,7 @@ export default function Api({launchyear,landing,launching}){
         console.log("landing")
         newURL = newURL + "&land_success=true";
     }
-    if(launchyear!=""){
+    if(launchyear!==""){
         console.log("launch year")
         newURL = newURL + `&launch_year=${launchyear}`;
     }

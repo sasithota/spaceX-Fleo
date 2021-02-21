@@ -5,6 +5,7 @@ import CardDisplay from './CardDisplay';
 
 import LoadingSpinner from './LoadingSpinner';
 import Checkboxes from './Checkboxes';
+import History from './History'
 
 
 const styles = {
@@ -27,44 +28,30 @@ function DataView({missions}){
     return (
         <div style={styles.dataview}>
            {
-                
-                missions.length===0 ? <p>No Data</p> : missions.map( e => <CardDisplay data={e}/>)
+                !missions.length ? <p>No Data</p> : missions.map( e => <CardDisplay key={e.flight_number} data={e}/>)
             }
         </div>
     )
 }
 
 const MainComponent = () => {
+    const params = new URLSearchParams(window.location.search);
+    const ly = params.get("launch_year");
+    const ld = params.get("landing_success");
+    const lc = params.get("launching_success");
 
-    const [launchyear, setLaunchyear] = useState("");
-    const [launching , setLaunching] = useState(false);
-    const [landing , setLanding] = useState(false);
+    const [launchyear, setLaunchyear] = useState(ly?ly:"");
+    const [launching , setLaunching] = useState(lc==="true"?true:false);
+    const [landing , setLanding] = useState(ld==="true"?true:false);
     const [isLoading, setIsLoading] = useState(false);
     const [missions, setMissions] = useState([]);
 
     useEffect(()=>{
-        const params = new URLSearchParams(window.location.search);
-        const ly = params.get("launch_year");
-        const ld = params.get("landing_success");
-        const lc = params.get("launching_success");
-        console.log(ly,ld,lc);
-        if(ly != null) setLaunchyear(ly);
-        if(ld != null) setLanding(ld==="true"?true:false);
-        if(lc != null) setLaunching(lc==="true"?true:false);
+        submitChange();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
-    useEffect(()=>{
-       
-       setIsLoading(true);
-       Api({launchyear,landing,launching}).
-       then(data => {
-             setMissions(data);
-             setIsLoading(false);
-       });
-
-    },[launchyear,landing,launching])
 
     const changeLaunchyear = (e)=>{
-        window.history.pushState("/?launch_year="+e.target.value);
         setLaunchyear(e.target.value);
     }
     const changeLaunching = (e)=>{
@@ -73,19 +60,29 @@ const MainComponent = () => {
     const changeLanding = (e)=>{
         setLanding(e.target.checked);
     }
+    const submitChange = async()=>{
+        // e.preventDefault();
+        console.log(launching,landing,launchyear);
+        setIsLoading(true);
+        History.push('/?launch_year='+launchyear+"&landing_success="+landing+"&launching_success="+launching);
+        const data = await Api({launchyear,landing,launching});
+        setMissions(data);
+        setIsLoading(false);
+    }
 
-    const params = {
+    const some = {
         launchyear,
         landing,
         launching,
         changeLaunchyear,
         changeLaunching,
-        changeLanding
+        changeLanding,
+        submitChange
     }
 
     return (
         <div style = {styles.container}>
-            <Checkboxes data={params}/>
+            <Checkboxes data={some}/>
             {
                 isLoading ? <LoadingSpinner /> : <DataView missions={missions}/>
             }
