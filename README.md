@@ -1,4 +1,4 @@
-# Getting Started with SpaceX-Fleo
+# SpaceX-Fleo
 
 This project was built with ReactJs and Bootstrap.
 This app is built to browse all the space programs launched by SpaceX with the following filters.
