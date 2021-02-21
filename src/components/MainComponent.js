@@ -42,15 +42,28 @@ const MainComponent = () => {
     const [missions, setMissions] = useState([]);
 
     useEffect(()=>{
+        const params = new URLSearchParams(window.location.search);
+        const ly = params.get("launch_year");
+        const ld = params.get("landing_success");
+        const lc = params.get("launching_success");
+        console.log(ly,ld,lc);
+        if(ly != null) setLaunchyear(ly);
+        if(ld != null) setLanding(ld==="true"?true:false);
+        if(lc != null) setLaunching(lc==="true"?true:false);
+    },[])
+    useEffect(()=>{
+       
        setIsLoading(true);
        Api({launchyear,landing,launching}).
        then(data => {
              setMissions(data);
              setIsLoading(false);
        });
+
     },[launchyear,landing,launching])
 
     const changeLaunchyear = (e)=>{
+        window.history.pushState("/?launch_year="+e.target.value);
         setLaunchyear(e.target.value);
     }
     const changeLaunching = (e)=>{
