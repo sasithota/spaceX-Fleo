@@ -3,20 +3,13 @@ import React, {useState,useEffect} from 'react'
 import Api from './ApiCalls';
 import CardDisplay from './CardDisplay';
 
-import {Form} from 'react-bootstrap'
 import LoadingSpinner from './LoadingSpinner';
+import Checkboxes from './Checkboxes';
 
 
 const styles = {
     container : {
-        height : '100vh',
-    
-    },
-    filter : {
-        height : '15vh',
-        display : 'flex',
-        justifyContent : 'space-around',
-        flexWrap : 'wrap'
+        height : '90vh',
     },
     dataview : {
         height : '85vh',
@@ -27,54 +20,61 @@ const styles = {
         alignContent : 'space-between',
         alignItems : 'center'
     },
-    spinner : {
-        height : '10vh',
-        width : '10vh',
-        display : 'flex',
-        alignItems : 'center',
-        justifyContent : 'center'
-    }
 }
 
-function MainComponent(){
+function DataView({missions}){
+    return (
+        <div style={styles.dataview}>
+           {
+                
+                missions.length===0 ? <p>No Data</p> : missions.map( e => <CardDisplay data={e}/>)
+            }
+        </div>
+    )
+}
 
-    const [filters, setFilters] = useState({launchYear: false,landing : false, launching : false});
-    const [render,setRender] = useState(false);
+const MainComponent = () => {
+
+    const [launchyear, setLaunchyear] = useState("");
+    const [launching , setLaunching] = useState(false);
+    const [landing , setLanding] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [missions, setMissions] = useState([]);
 
-    const filterHandler = (event) =>{
-       const name = event.target.name;
-       var newState = filters;
-       newState[name] = event.target.checked;
-       setRender(!render);
-       setFilters(newState);
-    } 
-
     useEffect(()=>{
-       Api(filters).then(data => setMissions(data));
-    },[filters,render])
-    
+       setIsLoading(true);
+       Api({launchyear,landing,launching}).
+       then(data => {
+             setMissions(data);
+             setIsLoading(false);
+       });
+    },[launchyear,landing,launching])
+
+    const changeLaunchyear = (e)=>{
+        setLaunchyear(e.target.value);
+    }
+    const changeLaunching = (e)=>{
+        setLaunching(e.target.checked);
+    }
+    const changeLanding = (e)=>{
+        setLanding(e.target.checked);
+    }
+
+    const params = {
+        launchyear,
+        landing,
+        launching,
+        changeLaunchyear,
+        changeLaunching,
+        changeLanding
+    }
+
     return (
         <div style = {styles.container}>
-            <div style = {styles.filter}>
-                {/* checkboxes */}
-                <Form.Group controlId="formBasicCheckbox">
-                   <Form.Check type="checkbox" label="Launch Year" name="launchYear" defaultChecked={filters.launchYear} onChange={filterHandler}/>
-                </Form.Group>
-                <Form.Group controlId="formBasicCheckbox">
-                   <Form.Check type="checkbox" label="Successful Launch" name="launching" defaultChecked={filters.launching} onChange={filterHandler}/>
-                </Form.Group>
-                <Form.Group controlId="formBasicCheckbox">
-                   <Form.Check type="checkbox" label="Successful Landing" name="landing" defaultChecked={filters.landing} onChange={filterHandler}/>
-                </Form.Group>
-            </div>
-            <div style = {styles.dataview}>
-                {
-                    missions.length===0?
-                    <div style={styles.spinner}><LoadingSpinner/></div>:
-                    missions.map( e => <CardDisplay data={e}/>)
-                }
-            </div>
+            <Checkboxes data={params}/>
+            {
+                isLoading ? <LoadingSpinner /> : <DataView missions={missions}/>
+            }
         </div>
     );
 }
