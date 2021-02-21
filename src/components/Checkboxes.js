@@ -1,9 +1,11 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 
-import {Form} from 'react-bootstrap'
+import {Form,Button} from 'react-bootstrap'
 
 function Checkboxes({data}){
     console.log(data);
+    useEffect(() => {
+    }, [])
     return (
             <div style = {{height : '15vh',display : 'flex',justifyContent : 'space-around',flexWrap : 'wrap',padding:'10px'}}>
                 {/* checkboxes */}
@@ -16,6 +18,9 @@ function Checkboxes({data}){
                 <Form.Group controlId="formBasicInput">
                     <Form.Control placeholder="LauchYear" value={data.launchyear} onChange={(e) => data.changeLaunchyear(e)}/>
                 </Form.Group>
+                <Button variant="primary" style={{height : "50%"}} type="submit" onClick={data.submitChange}>
+                     Apply
+                </Button>
             </div>
     )
 }
