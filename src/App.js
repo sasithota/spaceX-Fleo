@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
 
+import MainComponent from './components/MainComponent';
+
+import {Navbar,Nav} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const styles = {
+  container : {
+    width : "100%",
+    height: window.innerHeight,
+  },
+  head : {
+
+    height : '10%'
+  },
+  body : {
+    height : '90%'
+  }
+}
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={styles.container}>
+      <div style={styles.head}>
+        {/* navbar */}
+        <Navbar bg="dark" variant="dark">
+          <Navbar.Brand href="#home">SpaceX</Navbar.Brand>
+        </Navbar>
+      </div>
+      <div style={styles.body}>
+         <MainComponent />
+      </div>
     </div>
   );
 }
