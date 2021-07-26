@@ -2,9 +2,9 @@
 
 This project was built with ReactJs and Bootstrap.
 This app is built to browse all the space programs launched by SpaceX with the following filters.
-#### successful landing
-#### successful launch
-#### year of launch
+* #### successful landing
+* #### successful launch
+* #### year of launch
 
 ## To run the app on locally
 
