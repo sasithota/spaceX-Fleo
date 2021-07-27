@@ -19,7 +19,7 @@ This will download and install all the dependencies required for the project
 
 Launches the project on local server on your local machine
 
-## fucntionalities
+## Fucntionalities
 
 #### successfull landing
 When checked this box the search will be filter and successfully landed
